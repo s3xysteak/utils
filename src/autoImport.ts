@@ -17,7 +17,8 @@ const antfuList = [
 
 const fpTsList = ['flow']
 
-const exportList = [...antfuList, ...fpTsList]
+const numberList = ['toNumber', 'isInRange']
+const exportList = [...antfuList, ...fpTsList, ...numberList]
 
 export type AutoImportMap = { [K in typeof exportList[number]]: string }
 export function autoImport(map: Partial<AutoImportMap>) {
