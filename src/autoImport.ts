@@ -11,9 +11,13 @@ const antfuList = [
   'isNull',
   'isRegExp',
   'isDate',
+
+  'sleep',
 ]
 
-const exportList = [...antfuList]
+const fpTsList = ['flow']
+
+const exportList = [...antfuList, ...fpTsList]
 
 export type AutoImportMap = { [K in typeof exportList[number]]: string }
 export function autoImport(map: Partial<AutoImportMap>) {
