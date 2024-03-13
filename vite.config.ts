@@ -37,6 +37,9 @@ export default defineConfig({
       '**/.{vscode,svn}/**',
     ],
     root: fileURLToPath(new URL('./', import.meta.url)),
+    typecheck: {
+      enabled: true,
+    },
   },
   resolve: {
     alias: {

@@ -1,24 +1,26 @@
 import { name } from '../package.json'
 
-const antfuList = [
-  'isDef',
-  'isBoolean',
-  'isFunction',
-  'isNumber',
-  'isString',
-  'isObject',
-  'isUndefined',
-  'isNull',
-  'isRegExp',
-  'isDate',
+const exportMap = {
+  antfuList: [
+    'isDef',
+    'isBoolean',
+    'isFunction',
+    'isNumber',
+    'isString',
+    'isObject',
+    'isUndefined',
+    'isNull',
+    'isRegExp',
+    'isDate',
 
-  'sleep',
-]
+    'sleep',
+  ] as const,
+  fpTsList: ['flow'] as const,
+  numberList: ['toNumber', 'isInRange'] as const,
+  isList: ['isArray'] as const,
+}
 
-const fpTsList = ['flow']
-
-const numberList = ['toNumber', 'isInRange']
-const exportList = [...antfuList, ...fpTsList, ...numberList]
+const exportList = Object.values(exportMap).flat()
 
 export type AutoImportMap = { [K in typeof exportList[number]]: string }
 export function autoImport(map: Partial<AutoImportMap>) {
