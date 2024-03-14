@@ -1,5 +1,3 @@
-import { name } from '../package.json'
-
 const exportMap = {
   antfuList: [
     'isDef',
@@ -23,8 +21,8 @@ const exportMap = {
 const exportList = Object.values(exportMap).flat()
 
 export type AutoImportMap = { [K in typeof exportList[number]]: string }
-export function autoImport(map: Partial<AutoImportMap>) {
+export function autoImport(map?: Partial<AutoImportMap>): Record<string, (string | [string, string])[]> {
   return {
-    [name]: exportList.map(v => map && map[v] ? [v, map[v]] : v),
+    '@s3xysteak/utils': exportList.map(v => map && map[v] ? [v, map[v]] as [string, string] : v),
   }
 }
