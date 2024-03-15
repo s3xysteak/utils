@@ -12,11 +12,11 @@ const exportMap = {
     'isDate',
 
     'sleep',
-  ] as const,
-  fpTsList: ['flow'] as const,
-  numberList: ['toNumber', 'isInRange'] as const,
-  isList: ['isArray'] as const,
-}
+  ],
+  numberList: ['toNumber', 'isInRange'],
+  isList: ['isArray'],
+  fpList: ['flow'],
+} as const
 
 const exportList = Object.values(exportMap).flat()
 

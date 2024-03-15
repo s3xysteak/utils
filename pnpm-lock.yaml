@@ -11,9 +11,6 @@ dependencies:
   axios:
     specifier: ^1.6.7
     version: 1.6.7
-  fp-ts:
-    specifier: ^2.16.3
-    version: 2.16.3
 
 devDependencies:
   '@antfu/eslint-config':
@@ -2463,10 +2460,6 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
-    dev: false
-
-  /fp-ts@2.16.3:
-    resolution: {integrity: sha512-REm0sOecd4inACbAiFeOxpyOgB+f0OqhmZBBVOc5Ku1HqdroDU5uxYu9mybKj+be4DQ5L2YI6LuosjAfmuJCBQ==}
     dev: false
 
   /fraction.js@4.3.7:
