@@ -1,5 +1,5 @@
 export * from '@antfu/utils'
-export { flow } from 'fp-ts/function'
+export { flow } from 'fp-ts/es6/function'
 
 export * from './autoImport'
 
