@@ -1,5 +1,6 @@
+import { describe, expect, expectTypeOf, it } from 'vitest'
 import axios, { type AxiosResponse } from 'axios'
-import { expectTypeOf } from 'vitest'
+
 import { defineRequestAxiosFactory } from './axiosFactory'
 
 const defineRequest = defineRequestAxiosFactory(axios)

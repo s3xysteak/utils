@@ -1,5 +1,5 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { isArray, isFunction, isString } from '@/index'
+import { isArray, isFunction, isString } from '@/index.ts'
 
 const GetMethod = ['get', 'delete', 'head', 'options'] as const
 const PostMethod = ['post', 'put', 'patch', 'postForm', 'putForm', 'patchForm'] as const
