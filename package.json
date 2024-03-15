@@ -33,7 +33,6 @@
   "scripts": {
     "build": "tsc && unbuild",
     "build-only": "unbuild",
-    "type-check": "vue-tsc --build --force",
     "test": "vitest",
     "test-once": "vitest run",
     "release": "esno ./scripts/release.ts",
