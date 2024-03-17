@@ -16,6 +16,9 @@ const antfuList = [
   'sleep',
 ]
 
-await expGenerator('./src', { funcs: antfuList })
+await expGenerator('./src', { include: antfuList, exclude: [
+  'onDevFactory',
+  'defineRequestAxiosFactory',
+] })
 
 execSync('unbuild', { stdio: 'inherit' })
