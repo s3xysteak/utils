@@ -5,7 +5,7 @@ export type LastReturnType<T extends any[]> =
       L extends (...args: any) => infer R ? R : never : never
 
 /**
- * Compose functions from left to right, with **AWESOME** type intelligent.
+ * Compose functions from left to right, with type intelligent.
  *
  * @example
  * ```js
