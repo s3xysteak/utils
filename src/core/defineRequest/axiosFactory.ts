@@ -1,13 +1,13 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { isArray, isFunction, isString } from '@/index.ts'
 
-const GetMethod = ['get', 'delete', 'head', 'options'] as const
-const PostMethod = ['post', 'put', 'patch', 'postForm', 'putForm', 'patchForm'] as const
+const GET_METHOD = ['get', 'delete', 'head', 'options'] as const
+const POST_METHOD = ['post', 'put', 'patch', 'postForm', 'putForm', 'patchForm'] as const
 
 export type OptionsItem =
   | string
   | ((...args: any[]) => any)
-  | [url: string, method: typeof GetMethod[number] | typeof PostMethod[number]]
+  | [url: string, method: typeof GET_METHOD[number] | typeof POST_METHOD[number]]
 export type DefineRequestOptions = Record<string, OptionsItem>
 export type DefineRequestReturns<Options extends object = object> = {
   [K in keyof Options]: Options[K] extends (...args: any[]) => any
@@ -67,7 +67,7 @@ export function defineRequestAxiosFactory(request: AxiosInstance) {
         const [url, method] = val
 
         result[key]
-          = GetMethod.includes(method as any)
+          = GET_METHOD.includes(method as any)
             ? (params: any, config: AxiosRequestConfig) => request(url, { params, ...config })
             : (params: any, config: AxiosRequestConfig) => request[method](url, params, config)
       }
