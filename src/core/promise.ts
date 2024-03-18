@@ -30,7 +30,11 @@ import { isFunction } from '@/index'
 export function createPromiseQueue() {
   const list: Promise<any>[] = []
 
-  function run<T>(this: ReturnType<typeof createPromiseQueue>, promise: Promise<T> | (() => Promise<T>), cb: (value: T) => void) {
+  function run<T>(
+    this: ReturnType<typeof createPromiseQueue>,
+    promise: Promise<T> | (() => Promise<T>),
+    cb: (value: T) => void,
+  ): ReturnType<typeof createPromiseQueue> {
     const p = isFunction(promise) ? promise() : promise
     const index = list.push(p) - 1
 
