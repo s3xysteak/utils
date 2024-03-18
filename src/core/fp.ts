@@ -1,4 +1,4 @@
-import { isArray } from '../is'
+import { isArray } from './is'
 
 export type LastReturnType<T extends any[]> =
     T extends [...infer _, infer L] ?

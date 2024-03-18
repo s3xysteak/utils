@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, it } from 'vitest'
-import { flow } from '.'
+import { flow } from './fp'
 
 describe('flow', () => {
   it('should work with one func', () => {
