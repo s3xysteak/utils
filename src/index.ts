@@ -4,6 +4,7 @@ export * from './core/is'
 export * from './core/number'
 export * from './core/base'
 export * from './core/fp'
+export * from './core/types'
 export * from './core/promise'
 export * from './core/defineRequest/axiosFactory'
 

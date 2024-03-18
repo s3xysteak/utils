@@ -77,4 +77,38 @@ describe('createPromiseQueue', () => {
     expect(p2).toHaveBeenCalledWith(true)
     expect(p10).toHaveBeenCalledWith(true)
   })
+
+  it('should work with async callback', async () => {
+    const p3 = vi.fn()
+    const p2 = vi.fn()
+    const p10 = vi.fn()
+
+    let timeStart: number
+
+    const timeOffset = () => Math.abs(timestamp() - timeStart)
+
+    const queue = createPromiseQueue()
+
+    const arr = [3, 2, 10]
+
+    arr.forEach((v) => {
+      queue.run(async () => {
+        await sleep(v * 10)
+        return v
+      }, async (val) => {
+        expectTypeOf(val).toEqualTypeOf<number>()
+        if (val === 3)
+          timeStart = timestamp()
+
+        val === 2 && p3()
+        val === 3 && p2(timeOffset() < 3)
+        val === 10 && p10(timeOffset() > 50)
+      })
+    })
+
+    await queue.wait()
+    expect(p3).toHaveBeenCalled()
+    expect(p2).toHaveBeenCalledWith(true)
+    expect(p10).toHaveBeenCalledWith(true)
+  })
 })

@@ -1,4 +1,6 @@
-import { isFunction } from '@/index'
+import { type Awaitable, type Callable, isFunction } from '@/index'
+
+type CreatePromiseQueueReturns = ReturnType<typeof createPromiseQueue>
 
 /**
  * Create a promise queue. Concurrently run promise, but executing callbacks synchronously in order.
@@ -28,26 +30,27 @@ import { isFunction } from '@/index'
  * ```
  */
 export function createPromiseQueue() {
-  const list: Promise<any>[] = []
+  const list: Array<Callable<Promise<any>>>[] = []
 
   function run<T>(
-    this: ReturnType<typeof createPromiseQueue>,
-    promise: Promise<T> | (() => Promise<T>),
-    cb: (value: T) => void,
-  ): ReturnType<typeof createPromiseQueue> {
+    this: CreatePromiseQueueReturns,
+    promise: Callable<Promise<T>>,
+    callback: (value: T) => Awaitable<void>,
+  ): CreatePromiseQueueReturns {
     const p = isFunction(promise) ? promise() : promise
-    const index = list.push(p) - 1
+    const cb = async (v: T) => callback(v)
+    const index = list.push([p, cb]) - 1
 
     p.then(async (v) => {
-      index > 0 && await Promise.allSettled([list[index - 1]])
-      cb(v)
+      index > 0 && await Promise.allSettled(list[index - 1])
+      await cb(v)
     })
 
     return this
   }
 
   const wait = async () => {
-    await Promise.allSettled(list)
+    await Promise.allSettled(list.flat())
   }
 
   return {
