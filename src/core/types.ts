@@ -1,1 +1,1 @@
-export type Callable<T> = T | (() => T)
+export type Callable<T> = T | ((...args: any[]) => T)
