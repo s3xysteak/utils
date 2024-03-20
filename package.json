@@ -45,12 +45,12 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.8.3",
-    "@types/node": "^20.11.29",
+    "@types/node": "^20.11.30",
     "eslint": "^8.57.0",
     "esno": "^4.7.0",
     "typescript": "^5.4.2",
     "unbuild": "^2.0.0",
-    "unplugin-export-collector": "^0.3.0",
+    "unplugin-export-collector": "^0.3.1",
     "vitest": "^1.4.0"
   }
 }
