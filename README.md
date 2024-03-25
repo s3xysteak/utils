@@ -1,3 +1,7 @@
 # @s3xysteak/utils
 
-Based on @antfu/utils
+My utils.
+
+```sh
+pnpm i @s3xysteak/utils
+```

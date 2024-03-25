@@ -16,8 +16,15 @@ const antfuList = [
   'isRegExp',
   'isDate',
 
+  'notUndefined',
+  'noop',
+  'toArray',
+  'uniq',
+  'at',
   'sleep',
 ]
+
+const include = [...antfuList]
 
 export default defineBuildConfig({
   declaration: true,
@@ -34,7 +41,7 @@ export default defineBuildConfig({
       options.plugins = [
         ...(options.plugins as any[]),
         ExportCollector({
-          include: antfuList,
+          include,
           exclude: [
             'onDevFactory',
             'defineRequestAxiosFactory',
