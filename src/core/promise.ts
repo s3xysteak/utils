@@ -1,4 +1,4 @@
-import { type Awaitable, type Callable, isFunction } from '@/index'
+import { type Awaitable, type Callable, isFunction } from '..'
 
 type CreatePromiseQueueReturns = ReturnType<typeof createPromiseQueue>
 

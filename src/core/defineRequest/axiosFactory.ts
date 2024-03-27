@@ -1,18 +1,17 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { isArray, isFunction, isString } from '@/index.ts'
-
-const GET_METHOD = ['get', 'delete', 'head', 'options'] as const
-const POST_METHOD = ['post', 'put', 'patch', 'postForm', 'putForm', 'patchForm'] as const
+import { isArray, isFunction, isString } from '../..'
 
 export type OptionsItem =
   | string
   | ((...args: any[]) => any)
-  | [url: string, method: typeof GET_METHOD[number] | typeof POST_METHOD[number]]
+  | [url: string, method: keyof ReturnType<typeof defineMethodMap>]
+
 export type DefineRequestOptions = Record<string, OptionsItem>
-export type DefineRequestReturns<Options extends object = object> = {
+
+export type DefineRequestReturns<Options = any> = {
   [K in keyof Options]: Options[K] extends (...args: any[]) => any
     ? Options[K]
-    : (params: any, config: AxiosRequestConfig) => Promise<AxiosResponse>
+    : <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => Promise<AxiosResponse<Res, any>>
 }
 
 /**
@@ -25,8 +24,10 @@ export type DefineRequestReturns<Options extends object = object> = {
  * const defineRequest = defineRequestAxiosFactory(axiosInstance)
  *
  * const api = defineRequest({
- *   // Start with `get` will use `get` method, otherwise use `post` method.
+ *   // Start with `http methods` will use `http methods` method, otherwise use `post` method.
  *   getUser: '/user/list',
+ *
+ *   deleteUser: '/user/delete',
  *
  *   editUser: '/user/edit',
  *
@@ -41,6 +42,9 @@ export type DefineRequestReturns<Options extends object = object> = {
  *   // `get` Request
  *   const resGet = await api.getUser({ id: 1})
  *
+ *   // `delete` Request
+ *   const resDelete = await api.deleteUser({ id: 1 })
+ *
  *   // `post` Request
  *   const resPost = await api.editUser({ id: 1, name: 'newName' })
  *
@@ -52,24 +56,27 @@ export type DefineRequestReturns<Options extends object = object> = {
  * ```
  */
 export function defineRequestAxiosFactory(request: AxiosInstance) {
+  const methodMap = defineMethodMap(request)
+
   // TODO: Better Type declaration like `defineProps`
   return <T extends DefineRequestOptions = DefineRequestOptions>(options: T) => {
     const result: Record<string, any> = {}
 
     for (const [key, val] of Object.entries(options)) {
       if (isString(val)) {
-        result[key] = key.startsWith('get')
-          ? (params: any, config: AxiosRequestConfig) => request(val, { params, ...config })
-          : (params: any, config: AxiosRequestConfig) => request.post(val, params, config)
+        const matchVal = (key.match(/^[a-z]*/) as RegExpMatchArray)[0]
+
+        result[key] = matchVal in methodMap
+          ? methodMap[matchVal as keyof typeof methodMap](val)
+          : methodMap.post(val)
       }
 
       if (isArray(val)) {
         const [url, method] = val
+        if (!(method in methodMap))
+          throw new Error(`Method ${method} is not supported.`)
 
-        result[key]
-          = GET_METHOD.includes(method as any)
-            ? (params: any, config: AxiosRequestConfig) => request(url, { params, ...config })
-            : (params: any, config: AxiosRequestConfig) => request[method](url, params, config)
+        result[key] = methodMap[method](url)
       }
 
       if (isFunction(val))
@@ -77,5 +84,32 @@ export function defineRequestAxiosFactory(request: AxiosInstance) {
     }
 
     return result as DefineRequestReturns<T>
+  }
+}
+
+function defineMethodMap(request: AxiosInstance) {
+  return {
+    get: (url: string) =>
+      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.get<Res>(url, { params, ...config }),
+    put: (url: string) =>
+      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.put<Res>(url, params, config),
+    head: (url: string) =>
+      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.head<Res>(url, { params, ...config }),
+    options: (url: string) =>
+      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.options<Res>(url, { params, ...config }),
+
+    post: (url: string) =>
+      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.post<Res>(url, params, config),
+    patch: (url: string) =>
+      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.patch<Res>(url, params, config),
+    delete: (url: string) =>
+      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.delete<Res>(url, { params, ...config }),
+
+    postForm: (url: string) =>
+      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.postForm<Res>(url, params, config),
+    putForm: (url: string) =>
+      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.putForm<Res>(url, params, config),
+    patchForm: (url: string) =>
+      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.patchForm<Res>(url, params, config),
   }
 }
