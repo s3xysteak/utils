@@ -3,5 +3,5 @@
 My utils.
 
 ```sh
-pnpm i @s3xysteak/utils
+$ pnpm i @s3xysteak/utils
 ```
