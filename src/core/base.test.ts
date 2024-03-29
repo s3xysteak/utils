@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { toLF } from './base'
+import { toLF } from '..'
 
 describe('base', () => {
   it('toLF', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { sleep, timestamp } from '@antfu/utils'
-import { createPromiseQueue, toPromise } from './promise'
+import { createPromiseQueue, toPromise } from '..'
 
 describe('createPromiseQueue', () => {
   it('should work', async () => {

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import axios from 'axios'
 
-import { defineRequestAxiosFactory } from './axiosFactory'
+import { defineRequestAxiosFactory } from '../..'
 
 const defineRequest = defineRequestAxiosFactory(axios)
 
