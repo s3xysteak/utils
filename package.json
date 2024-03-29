@@ -1,7 +1,7 @@
 {
   "name": "@s3xysteak/utils",
   "type": "module",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "description": "s3xysteak/utils",
   "author": "s3xysteak",
