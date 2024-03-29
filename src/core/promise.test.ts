@@ -1,8 +1,10 @@
 import { describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { sleep, timestamp } from '@antfu/utils'
-import { createPromiseQueue, toPromise } from '..'
+import { createPromiseQueue, isArray, toPromise } from '..'
 
 describe('createPromiseQueue', () => {
+  // TODO: improve test
+
   it('should work', async () => {
     const p3 = vi.fn()
     const p2 = vi.fn()
@@ -116,32 +118,46 @@ describe('createPromiseQueue', () => {
 describe('toPromise', () => {
   const t = async (v: any) => {
     expect(toPromise(v)).toBeInstanceOf(Promise)
-    expect(await toPromise(v)).toBe(1)
+
+    const val = await toPromise(v)
+    isArray(val) ? expect(val).toStrictEqual([1]) : expect(val).toBe(1)
   }
 
   it('should work with promise', async () => {
     const fn = async () => 1
-
     const p: Promise<number> = fn()
 
+    const fnHeap = async () => [1]
+    const pHeap: Promise<number[]> = fnHeap()
+
     await t(p)
+    await t(pHeap)
   })
 
   it('should work with value', async () => {
     const p: number = 1
 
+    const pHeap: number[] = [1]
+
     await t(p)
+    await t(pHeap)
   })
 
   it('should work with function which returns value', async () => {
     const fn = () => 1
 
+    const fnHeap = () => [1]
+
     await t(fn)
+    await t(fnHeap)
   })
 
   it('should work with function which returns promise', async () => {
     const fn = async () => 1
 
+    const fnHeap = async () => [1]
+
     await t(fn)
+    await t(fnHeap)
   })
 })
