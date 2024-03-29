@@ -58,3 +58,10 @@ export function createPromiseQueue() {
     wait,
   }
 }
+
+export function toPromise<T>(param: Callable<Awaitable<T>>): Promise<T> {
+  const cb = async () =>
+    isFunction(param) ? param() : param
+
+  return cb()
+}

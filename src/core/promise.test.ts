@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { sleep, timestamp } from '@antfu/utils'
-import { createPromiseQueue } from './promise'
+import { createPromiseQueue, toPromise } from './promise'
 
 describe('createPromiseQueue', () => {
   it('should work', async () => {
@@ -110,5 +110,38 @@ describe('createPromiseQueue', () => {
     expect(p3).toHaveBeenCalled()
     expect(p2).toHaveBeenCalledWith(true)
     expect(p10).toHaveBeenCalledWith(true)
+  })
+})
+
+describe('toPromise', () => {
+  const t = async (v: any) => {
+    expect(toPromise(v)).toBeInstanceOf(Promise)
+    expect(await toPromise(v)).toBe(1)
+  }
+
+  it('should work with promise', async () => {
+    const fn = async () => 1
+
+    const p: Promise<number> = fn()
+
+    await t(p)
+  })
+
+  it('should work with value', async () => {
+    const p: number = 1
+
+    await t(p)
+  })
+
+  it('should work with function which returns value', async () => {
+    const fn = () => 1
+
+    await t(fn)
+  })
+
+  it('should work with function which returns promise', async () => {
+    const fn = async () => 1
+
+    await t(fn)
   })
 })
