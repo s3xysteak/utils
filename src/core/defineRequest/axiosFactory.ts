@@ -1,7 +1,7 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { isArray, isFunction, isString } from '../..'
 
-export type OptionsItem =
+type OptionsItem =
   | string
   | ((...args: any[]) => any)
   | [url: string, method: keyof ReturnType<typeof defineMethodMap>]
