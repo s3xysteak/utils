@@ -8,16 +8,13 @@ type OptionsItem =
 
 export type DefineRequestOptions = Record<string, OptionsItem>
 
-interface CustomTypeItem {
-  params?: any
-  return?: any
-}
+type CustomTypeItem = [any, any]
 
 export type DefineRequestReturns<CustomType extends { [key in keyof Options]?: CustomTypeItem } = object, Options = any> = {
   [K in keyof Options]: Options[K] extends (...args: any[]) => any
     ? Options[K]
     : CustomType[K] extends CustomTypeItem
-      ? (params: CustomType[K]['params'], config?: AxiosRequestConfig<CustomType[K]['params']>) => Promise<AxiosResponse<CustomType[K]['return'], any>>
+      ? (params: CustomType[K][0], config?: AxiosRequestConfig<CustomType[K][0]>) => Promise<AxiosResponse<CustomType[K][1], any>>
       : <Req = any, Res = any>(params: Req, config?: AxiosRequestConfig<Req>) => Promise<AxiosResponse<Res, any>>
 }
 
@@ -63,14 +60,16 @@ export type DefineRequestReturns<CustomType extends { [key in keyof Options]?: C
  *
  * // For TypeScript
  * const req = {
- *  getUser: '/user/list',
- *  editUser: '/user/edit',
+ *   getUser: '/user/list',
+ *   editUser: '/user/edit',
  * }
  * const apiTs = defineRequest<typeof req, {
- *  getUser: {
- *    params: { id: number },
- *    return: { name: string },
- *  },
+ *   getUser: [
+ *     // Param type,
+ *     { id: number },
+ *     // Response type
+ *     { name: string }
+ *   ],
  * }>(req)
  *
  * const useTs = async () => {

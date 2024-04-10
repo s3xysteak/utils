@@ -31,7 +31,7 @@ describe('defineRequestAxiosFactory', () => {
       editUser: '/user/edit',
     }
     const request = defineRequest<typeof obj, {
-      getUser: { params: { id: string }, return: { name: string } }
+      getUser: [{ id: string }, { name: string }]
     }>(obj)
 
     expectTypeOf(request.getUser).parameter(0).toEqualTypeOf<{ id: string }>()
