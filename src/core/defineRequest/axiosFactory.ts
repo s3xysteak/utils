@@ -25,7 +25,7 @@ export type DefineRequestReturns<CustomType extends { [key in keyof Options]?: C
  * Define a request factory for axios.
  *
  * @example
- * ```js
+ * ```ts
  * import axiosInstance from '@/api'
  *
  * const defineRequest = defineRequestAxiosFactory(axiosInstance)
@@ -60,6 +60,31 @@ export type DefineRequestReturns<CustomType extends { [key in keyof Options]?: C
  *
  *   const resCustom = await api.customFunc({ id: 1 })
  * }
+ *
+ * // For TypeScript
+ * const req = {
+ *  getUser: '/user/list',
+ *  editUser: '/user/edit',
+ * }
+ * const apiTs = defineRequest<typeof req, {
+ *  getUser: {
+ *    params: { id: number },
+ *    return: { name: string },
+ *  },
+ * }>(req)
+ *
+ * const useTs = async () => {
+ *   // IntelliSense
+ *   const resGet = await apiTs.getUser({ id: 1 })
+ *   console.log(resGet.data.name)
+ *
+ *   // Default type is any
+ *   const resEdit = await apiTs.editUser({
+ *     sid: 1,
+ *     name: 'newName'
+ *   })
+ * }
+ *
  * ```
  */
 export function defineRequestAxiosFactory(request: AxiosInstance) {
