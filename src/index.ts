@@ -12,6 +12,9 @@ export * from './core/defineRequest/axiosFactory'
 
 const __UnExportList = ["at","createPromiseQueue","flow","groupBy","isArray","isBoolean","isDate","isDef","isFunction","isInRange","isNull","isNumber","isObject","isRegExp","isString","isUndefined","noop","notUndefined","sleep","toArray","toLF","toNumber","toPromise","uniq"] as const
 
+/**
+ * @returns Use in `imports` option of unplugin-auto-import.
+ */
 export function autoImport(map?: Partial<{ [K in typeof __UnExportList[number]]: string }>): Record<string, (string | [string, string])[]> {
   return {
     '@s3xysteak/utils': __UnExportList.map(v => map && map[v] ? [v, map[v]] as [string, string] : v),
