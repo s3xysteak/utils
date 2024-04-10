@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 import axios from 'axios'
+import type { AxiosResponse } from 'axios'
 
 import { defineRequestAxiosFactory } from '../..'
 
@@ -22,5 +23,18 @@ describe('defineRequestAxiosFactory', () => {
     expect(request.custom).toBeDefined()
     expect(typeof request.custom).toBe('function')
     expect(request.custom()).toBe(1)
+  })
+
+  it('should work with generic', () => {
+    const obj = {
+      getUser: '/user/list',
+      editUser: '/user/edit',
+    }
+    const request = defineRequest<typeof obj, {
+      getUser: { params: { id: string }, return: { name: string } }
+    }>(obj)
+
+    expectTypeOf(request.getUser).parameter(0).toEqualTypeOf<{ id: string }>()
+    expectTypeOf(request.getUser).returns.toEqualTypeOf<Promise<AxiosResponse<{ name: string }, any>>>()
   })
 })

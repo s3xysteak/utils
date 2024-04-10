@@ -8,10 +8,17 @@ type OptionsItem =
 
 export type DefineRequestOptions = Record<string, OptionsItem>
 
-export type DefineRequestReturns<Options = any> = {
+interface CustomTypeItem {
+  params?: any
+  return?: any
+}
+
+export type DefineRequestReturns<CustomType extends { [key in keyof Options]?: CustomTypeItem } = object, Options = any> = {
   [K in keyof Options]: Options[K] extends (...args: any[]) => any
     ? Options[K]
-    : <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => Promise<AxiosResponse<Res, any>>
+    : CustomType[K] extends CustomTypeItem
+      ? (params: CustomType[K]['params'], config?: AxiosRequestConfig<CustomType[K]['params']>) => Promise<AxiosResponse<CustomType[K]['return'], any>>
+      : <Req = any, Res = any>(params: Req, config?: AxiosRequestConfig<Req>) => Promise<AxiosResponse<Res, any>>
 }
 
 /**
@@ -40,7 +47,7 @@ export type DefineRequestReturns<Options = any> = {
  *
  * const use = async () => {
  *   // `get` Request
- *   const resGet = await api.getUser({ id: 1})
+ *   const resGet = await api.getUser({ id: 1 })
  *
  *   // `delete` Request
  *   const resDelete = await api.deleteUser({ id: 1 })
@@ -58,8 +65,8 @@ export type DefineRequestReturns<Options = any> = {
 export function defineRequestAxiosFactory(request: AxiosInstance) {
   const methodMap = defineMethodMap(request)
 
-  // TODO: Better Type declaration like `defineProps`
-  return <T extends DefineRequestOptions = DefineRequestOptions>(options: T) => {
+  // TODO: Switch the order.
+  return <T extends DefineRequestOptions = DefineRequestOptions, CustomType extends { [key in keyof T]?: CustomTypeItem } = object>(options: T) => {
     const result: Record<string, any> = {}
 
     for (const [key, val] of Object.entries(options)) {
@@ -83,7 +90,7 @@ export function defineRequestAxiosFactory(request: AxiosInstance) {
         result[key] = val
     }
 
-    return result as DefineRequestReturns<T>
+    return result as DefineRequestReturns<CustomType, T>
   }
 }
 

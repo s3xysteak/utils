@@ -20,6 +20,8 @@
     "isolatedModules": true,
     "skipLibCheck": true
   },
-  "include": ["src", "test", "scripts", "build.config.ts"],
-  "exclude": ["*.md"]
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }
