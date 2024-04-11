@@ -15,13 +15,13 @@ describe('defineRequestAxiosFactory', () => {
     })
 
     expect(request.editUser).toBeDefined()
-    expect(typeof request.editUser).toBe('function')
+    expectTypeOf(request.editUser<any, any>).returns.toEqualTypeOf<Promise<AxiosResponse<any, any>>>()
 
     expect(request.postFormUser).toBeDefined()
-    expect(typeof request.postFormUser).toBe('function')
+    expectTypeOf(request.postFormUser<any, any>).returns.toEqualTypeOf<Promise<AxiosResponse<any, any>>>()
 
     expect(request.custom).toBeDefined()
-    expect(typeof request.custom).toBe('function')
+    expectTypeOf(request.custom).returns.toEqualTypeOf<number>()
     expect(request.custom()).toBe(1)
   })
 
@@ -36,5 +36,6 @@ describe('defineRequestAxiosFactory', () => {
 
     expectTypeOf(request.getUser).parameter(0).toEqualTypeOf<{ id: string }>()
     expectTypeOf(request.getUser).returns.toEqualTypeOf<Promise<AxiosResponse<{ name: string }, any>>>()
+    expectTypeOf(request.editUser<any, any>).returns.toEqualTypeOf<Promise<AxiosResponse<any, any>>>()
   })
 })
