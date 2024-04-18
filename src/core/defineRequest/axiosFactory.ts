@@ -44,7 +44,8 @@ export type DefineRequestReturns<CustomType extends { [key in keyof Options]?: C
  *
  * const use = async () => {
  *   // `get` Request
- *   const resGet = await api.getUser({ id: 1 })
+ *   // const resGet = await api.getUser('1', { otherData: 2 }, { header: {} }) // To append string after url
+ *   const resGet = await api.getUser({ id: 1 }, { header: {} })
  *
  *   // `delete` Request
  *   const resDelete = await api.deleteUser({ id: 1 })
@@ -119,28 +120,45 @@ export function defineRequestAxiosFactory(request: AxiosInstance) {
 }
 
 function defineMethodMap(request: AxiosInstance) {
+  function createAxiosRequest(
+    url: string,
+    method: keyof ReturnType<typeof defineMethodMap>,
+    isParams: boolean,
+  ): <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => Promise<AxiosResponse<Res>>
+  function createAxiosRequest(
+    url: string,
+    method: keyof ReturnType<typeof defineMethodMap>,
+    isParams: boolean,
+  ): <Req = any, Res = any>(append: string, params: Req, config: AxiosRequestConfig<Req>) => Promise<AxiosResponse<Res>>
+  function createAxiosRequest(
+    url: string,
+    method: keyof ReturnType<typeof defineMethodMap>,
+    isParams: boolean,
+  ) {
+    return <Req = any, Res = any>(...args: [Req, AxiosRequestConfig<Req>] | [string, Req, AxiosRequestConfig<Req>]) => {
+      const isAppend = isString(args[0])
+
+      url = isAppend ? `${url.replace(/\/$/, '')}/${(args[0] as string).replace(/^\//, '')}` : url
+      const [params, config] = isAppend ? [args[1], args[2]] : [args[0], args[1]]
+
+      return isParams
+        ? request[method]<Res>(url, { params, ...config })
+        : request[method]<Res>(url, params, config as AxiosRequestConfig<Req> | undefined)
+    }
+  }
+
   return {
-    get: (url: string) =>
-      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.get<Res>(url, { params, ...config }),
-    put: (url: string) =>
-      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.put<Res>(url, params, config),
-    head: (url: string) =>
-      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.head<Res>(url, { params, ...config }),
-    options: (url: string) =>
-      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.options<Res>(url, { params, ...config }),
+    get: (url: string) => createAxiosRequest(url, 'get', true),
+    put: (url: string) => createAxiosRequest(url, 'put', false),
+    head: (url: string) => createAxiosRequest(url, 'head', true),
+    options: (url: string) => createAxiosRequest(url, 'options', true),
 
-    post: (url: string) =>
-      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.post<Res>(url, params, config),
-    patch: (url: string) =>
-      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.patch<Res>(url, params, config),
-    delete: (url: string) =>
-      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.delete<Res>(url, { params, ...config }),
+    post: (url: string) => createAxiosRequest(url, 'post', false),
+    patch: (url: string) => createAxiosRequest(url, 'patch', false),
+    delete: (url: string) => createAxiosRequest(url, 'delete', true),
 
-    postForm: (url: string) =>
-      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.postForm<Res>(url, params, config),
-    putForm: (url: string) =>
-      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.putForm<Res>(url, params, config),
-    patchForm: (url: string) =>
-      <Req = any, Res = any>(params: Req, config: AxiosRequestConfig<Req>) => request.patchForm<Res>(url, params, config),
+    postForm: (url: string) => createAxiosRequest(url, 'post', false),
+    putForm: (url: string) => createAxiosRequest(url, 'put', false),
+    patchForm: (url: string) => createAxiosRequest(url, 'patch', false),
   }
 }
