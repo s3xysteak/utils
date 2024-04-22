@@ -44,7 +44,7 @@ export type DefineRequestReturns<CustomType extends { [key in keyof Options]?: C
  *
  * const use = async () => {
  *   // `get` Request
- *   // const resGet = await api.getUser('1', { otherData: 2 }, { header: {} }) // To append string after url
+ *   // const resGet = await api.getUser('/1', { otherData: 2 }, { header: {} }) // To append string after url
  *   const resGet = await api.getUser({ id: 1 }, { header: {} })
  *
  *   // `delete` Request
@@ -138,7 +138,7 @@ function defineMethodMap(request: AxiosInstance) {
     return <Req = any, Res = any>(...args: [Req, AxiosRequestConfig<Req>] | [string, Req, AxiosRequestConfig<Req>]) => {
       const isAppend = isString(args[0])
 
-      url = isAppend ? `${url.replace(/\/$/, '')}/${(args[0] as string).replace(/^\//, '')}` : url
+      url = isAppend ? `${url}${args[0]}` : url
       const [params, config] = isAppend ? [args[1], args[2]] : [args[0], args[1]]
 
       return isParams
