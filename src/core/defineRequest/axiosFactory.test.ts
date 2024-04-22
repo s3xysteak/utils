@@ -34,7 +34,7 @@ describe('defineRequestAxiosFactory', () => {
       getUser: [{ id: string }, { name: string }]
     }>(obj)
 
-    expectTypeOf(request.getUser).parameter(0).toEqualTypeOf<{ id: string }>()
+    expectTypeOf(request.getUser).parameter(0).toEqualTypeOf<{ id: string } | string>()
     expectTypeOf(request.getUser).returns.toEqualTypeOf<Promise<AxiosResponse<{ name: string }, any>>>()
     expectTypeOf(request.editUser<any, any>).returns.toEqualTypeOf<Promise<AxiosResponse<any, any>>>()
   })
