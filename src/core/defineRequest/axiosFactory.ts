@@ -143,12 +143,12 @@ function defineMethodMap(request: AxiosInstance) {
     return <Req = any, Res = any>(...args: [Req, AxiosRequestConfig<Req>] | [string, Req, AxiosRequestConfig<Req>]) => {
       const isAppend = isString(args[0])
 
-      url = isAppend ? `${url}${args[0]}` : url
+      const _url = isAppend ? `${url}${args[0]}` : url
       const [params, config] = isAppend ? [args[1], args[2]] : [args[0], args[1]]
 
       return isParams
-        ? request[method]<Res>(url, { params, ...config })
-        : request[method]<Res>(url, params, config as AxiosRequestConfig<Req> | undefined)
+        ? request[method]<Res>(_url, { params, ...config })
+        : request[method]<Res>(_url, params, config as AxiosRequestConfig<Req> | undefined)
     }
   }
 
