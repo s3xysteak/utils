@@ -14,13 +14,9 @@ export type DefineRequestReturns<CustomType extends { [key in keyof Options]?: C
   [K in keyof Options]: Options[K] extends (...args: any[]) => any
     ? Options[K]
     : CustomType[K] extends CustomTypeItem
-      ?
-      | ((params: CustomType[K][0] extends object ? CustomType[K][0] : any, config?: AxiosRequestConfig<CustomType[K][0] extends object ? CustomType[K][0] : any>) => Promise<AxiosResponse<CustomType[K][1] extends object ? CustomType[K][1] : any, any>>)
-      | ((appendUrl: string, params?: CustomType[K][0] extends object ? CustomType[K][0] : any, config?: AxiosRequestConfig<CustomType[K][0] extends object ? CustomType[K][0] : any>) => Promise<AxiosResponse<CustomType[K][1] extends object ? CustomType[K][1] : any, any>>)
+      ? (paramsOrAppendUrl?: (CustomType[K][0] extends object ? CustomType[K][0] : any) | string, paramsOrConfig?: (CustomType[K][0] extends object ? CustomType[K][0] : any) | AxiosRequestConfig<CustomType[K][0] extends object ? CustomType[K][0] : any>, config?: AxiosRequestConfig<CustomType[K][0] extends object ? CustomType[K][0] : any>) => Promise<AxiosResponse<CustomType[K][1] extends object ? CustomType[K][1] : any, any>>
 
-      :
-      | (<Req = any, Res = any>(params: Req, config?: AxiosRequestConfig<Req>) => Promise<AxiosResponse<Res, any>>)
-      | (<Req = any, Res = any>(appendUrl: string, params?: Req, config?: AxiosRequestConfig<Req>) => Promise<AxiosResponse<Res, any>>)
+      : <Req = any, Res = any>(paramsOrAppendUrl?: Req | string, paramsOrConfig?: Req | AxiosRequestConfig<Req>, config?: AxiosRequestConfig<Req>) => Promise<AxiosResponse<Res, any>>
 }
 
 /**
