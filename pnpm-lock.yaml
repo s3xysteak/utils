@@ -34,8 +34,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(typescript@5.4.5)
       unplugin-export-collector:
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.4.2
+        version: 0.4.2
       vitest:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@20.12.8)
@@ -2586,8 +2586,8 @@ packages:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
 
-  unplugin-export-collector@0.4.1:
-    resolution: {integrity: sha512-QR/uQyBV5YGf7ZQmtiWNq8Ww5WoQMOb7nhaPtiwaa0/4Grr5J56dInGuFOEVZP7kAIdioTPo/D0ybXr6VTZ7uQ==}
+  unplugin-export-collector@0.4.2:
+    resolution: {integrity: sha512-nrE6uSUWFwrgDY6mzvv/A09LH2pYaTjm+jbM/mGVosMrrQQoVxRvhH4OEinNDW0E2sAsgdR5oGlZBNuEou2S7Q==}
 
   unplugin@1.10.1:
     resolution: {integrity: sha512-d6Mhq8RJeGA8UfKCu54Um4lFA0eSaRa3XxdAJg8tIdxbu1ubW0hBCZUL7yI2uGyYCRndvbK8FLHzqy2XKfeMsg==}
@@ -5323,7 +5323,7 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unplugin-export-collector@0.4.1:
+  unplugin-export-collector@0.4.2:
     dependencies:
       '@s3xysteak/utils': 0.2.1
       '@swc/core': 1.4.17
