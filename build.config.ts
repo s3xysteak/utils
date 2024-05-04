@@ -15,11 +15,9 @@ const antfuList = [
   'isRegExp',
   'isDate',
 
-  'notUndefined',
   'noop',
   'toArray',
   'uniq',
-  'at',
   'sleep',
 ]
 
