@@ -21,6 +21,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
+    },
+    "./resolver": {
+      "import": {
+        "types": "./dist/resolver.d.ts",
+        "default": "./dist/resolver.mjs"
+      },
+      "require": {
+        "types": "./dist/resolver.d.ts",
+        "default": "./dist/resolver.cjs"
+      }
     }
   },
   "main": "./dist/index.cjs",

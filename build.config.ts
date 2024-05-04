@@ -42,6 +42,8 @@ export default defineBuildConfig({
             'onDevFactory',
             'defineRequestAxiosFactory',
           ],
+          exportDefault: true,
+          writeTo: './src/resolver.ts',
         }),
       ]
     },
