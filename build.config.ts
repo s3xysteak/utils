@@ -38,7 +38,6 @@ export default defineBuildConfig({
           include,
           exclude: [
             'onDevFactory',
-            'defineRequestAxiosFactory',
           ],
           exportDefault: true,
           writeTo: './src/resolver.ts',
