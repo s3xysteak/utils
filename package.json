@@ -52,17 +52,23 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@antfu/utils": "^0.7.7",
-    "axios": "^1.6.8"
+    "@antfu/utils": "^0.7.10"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.16.1",
-    "@types/node": "^20.12.8",
-    "eslint": "^8.57.0",
+    "@antfu/eslint-config": "^2.21.2",
+    "@types/node": "^20.14.9",
+    "eslint": "^9.6.0",
     "esno": "^4.7.0",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.3",
     "unbuild": "^2.0.0",
-    "unplugin-export-collector": "^0.4.2",
+    "unplugin-export-collector": "^0.5.0",
     "vitest": "^1.6.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "eslint": "9"
+      }
+    }
   }
 }
