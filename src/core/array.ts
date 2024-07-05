@@ -1,7 +1,7 @@
-import { type ObjectKeys, isString, isUndefined } from '..'
+import { isString, isUndefined } from '..'
 
-export function groupBy<T extends any[]>(arr: T, getKey: string | ((element: T[number], index: number) => ObjectKeys)) {
-  const val: Record<ObjectKeys, T[number]> = {}
+export function groupBy<T extends any[]>(arr: T, getKey: string | ((element: T[number], index: number) => PropertyKey)) {
+  const val: Record<PropertyKey, T[number]> = {}
 
   for (const [index, item] of arr.entries()) {
     const key = isString(getKey) ? item[getKey] : getKey(item, index)
