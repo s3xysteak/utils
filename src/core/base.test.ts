@@ -18,7 +18,8 @@ describe('base:createMeta', () => {
     s(obj, { two: 2 })
     expect(g(obj)).toEqual({ two: 2 })
 
-    s(obj, 2)
+    const returnsOfSetter = s(obj, 2)
+    expect(returnsOfSetter).toEqual(obj)
     expect(g(obj)).toBe(2)
   })
 
@@ -29,9 +30,19 @@ describe('base:createMeta', () => {
       one: number
     }
     const [s, g] = createMeta<Options>()
-
-    s(obj, { one: 1 })
     expectTypeOf(s).parameter(1).toEqualTypeOf<Options>()
-    expectTypeOf(g(obj)).toEqualTypeOf<Options>()
+
+    const returnsOfSetter = s(obj, { one: 1 })
+    expectTypeOf(returnsOfSetter).toEqualTypeOf<typeof obj>()
+    expectTypeOf(g(obj)).toEqualTypeOf<Options | undefined>()
+  })
+
+  it('object destruct', () => {
+    const obj = { one: 1 }
+
+    const { setMeta, getMeta } = createMeta()
+
+    setMeta(obj, { two: 2 })
+    expect(getMeta(obj)).toEqual({ two: 2 })
   })
 })

@@ -8,6 +8,16 @@ export function toLF(content: string) {
   return content.replace(/\r\n/g, '\n')
 }
 
+/**
+ * Create Setter and Getter for property without conflict (based on Symbol)
+ * @example
+ * // const { setMeta, getMeta } = createMeta()
+ * const [s, g] = createMeta<{one: number}>()
+ *
+ * const obj = {}
+ * s(obj, { one: 1 })
+ * g(obj) // = { one: 1 }
+ */
 export function createMeta<T = any>(_temp?: T) {
   const metaSymbol = Symbol('createMeta')
 
