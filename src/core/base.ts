@@ -11,13 +11,11 @@ export function toLF(content: string) {
 export function createMeta<T = any>(_temp?: T) {
   const metaSymbol = Symbol('createMeta')
 
-  const set = (target: any, meta: T) =>
-    Object.defineProperty(target, metaSymbol, {
-      value: meta,
-      writable: true,
-      enumerable: true,
-      configurable: true,
-    })
+  const set = <Target = any>(target: Target, meta: T) => {
+    // @ts-expect-error - object index type error
+    target[metaSymbol] = meta
+    return target
+  }
 
   const get = (target: any) => target[metaSymbol] as T | undefined
 
