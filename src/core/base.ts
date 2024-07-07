@@ -19,7 +19,7 @@ export function createMeta<T = any>(_temp?: T) {
       configurable: true,
     })
 
-  const get = (target: any) => target[metaSymbol] as T
+  const get = (target: any) => target[metaSymbol] as T | undefined
 
   return makeDestructurable(
     { setMeta: set, getMeta: get } as const,
