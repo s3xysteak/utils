@@ -25,11 +25,6 @@ const include = [...antfuList]
 
 export default defineBuildConfig({
   externals: Object.keys(pkg.dependencies || {}),
-  rollup: {
-    esbuild: {
-      minify: true,
-    },
-  },
   hooks: {
     'rollup:options': (_, options) => {
       options.plugins = [
