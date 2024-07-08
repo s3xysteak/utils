@@ -1,4 +1,5 @@
 import { describe, expect, expectTypeOf, it } from 'vitest'
+import { noop } from '@antfu/utils'
 import { createMeta, toLF } from './base'
 
 describe('base', () => {
@@ -44,5 +45,16 @@ describe('base:createMeta', () => {
 
     setMeta(obj, { two: 2 })
     expect(getMeta(obj)).toEqual({ two: 2 })
+  })
+
+  it('handle error', () => {
+    const [s, g] = createMeta()
+
+    const func = s(noop, 1)
+    expect(g(func)).toBe(1)
+
+    expect(g(undefined)).toBe(undefined)
+
+    expect(() => s(undefined, 1)).toThrowError()
   })
 })

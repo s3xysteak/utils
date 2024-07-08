@@ -21,13 +21,15 @@ export function toLF(content: string) {
 export function createMeta<T = any>(_temp?: T) {
   const metaSymbol = Symbol('createMeta')
 
-  const set = <Target = any>(target: Target, meta: T) => {
-    // @ts-expect-error - object index type error
-    target[metaSymbol] = meta
-    return target
-  }
+  const set = <Target = any>(target: Target, meta: T) =>
+    Object.defineProperty(target, metaSymbol, {
+      value: meta,
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    })
 
-  const get = (target: any) => target[metaSymbol] as T | undefined
+  const get = (target: any) => target?.[metaSymbol] as T | undefined
 
   return makeDestructurable(
     { setMeta: set, getMeta: get } as const,
