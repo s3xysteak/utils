@@ -11,17 +11,15 @@ export function toLF(content: string) {
 /**
  * Create Setter and Getter for property without conflict (based on Symbol)
  * @example
- * // const { setMeta, getMeta } = createMeta()
+ * // const { set, get } = createMeta()
  * const [s, g] = createMeta<{one: number}>()
  *
  * const obj = {}
  * s(obj, { one: 1 })
  * g(obj) // = { one: 1 }
  */
-export function createMeta<T = any>(_temp?: T) {
-  const metaSymbol = Symbol('createMeta')
-
-  const set = <Target = any>(target: Target, meta: T) =>
+export function createMeta<T = any>(metaSymbol: PropertyKey = Symbol('createMeta'), _temp?: T) {
+  const set = <Meta = T, Target = any>(target: Target, meta: Meta) =>
     Object.defineProperty(target, metaSymbol, {
       value: meta,
       writable: true,
@@ -29,10 +27,10 @@ export function createMeta<T = any>(_temp?: T) {
       configurable: true,
     })
 
-  const get = (target: any) => target?.[metaSymbol] as T | undefined
+  const get = <Meta = T>(target: any) => target?.[metaSymbol] as Meta | undefined
 
   return makeDestructurable(
-    { setMeta: set, getMeta: get } as const,
+    { set, get } as const,
     [set, get] as const,
   )
 }

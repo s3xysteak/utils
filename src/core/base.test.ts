@@ -31,20 +31,21 @@ describe('base:createMeta', () => {
       one: number
     }
     const [s, g] = createMeta<Options>()
-    expectTypeOf(s).parameter(1).toEqualTypeOf<Options>()
+    expectTypeOf(s<Options>).parameter(1).toEqualTypeOf<Options>()
 
     const returnsOfSetter = s(obj, { one: 1 })
     expectTypeOf(returnsOfSetter).toEqualTypeOf<typeof obj>()
     expectTypeOf(g(obj)).toEqualTypeOf<Options | undefined>()
+    expectTypeOf(g<string>(obj)).toEqualTypeOf<string | undefined>()
   })
 
   it('object destruct', () => {
     const obj = { one: 1 }
 
-    const { setMeta, getMeta } = createMeta()
+    const { set, get } = createMeta()
 
-    setMeta(obj, { two: 2 })
-    expect(getMeta(obj)).toEqual({ two: 2 })
+    set(obj, { two: 2 })
+    expect(get(obj)).toEqual({ two: 2 })
   })
 
   it('handle error', () => {
@@ -56,5 +57,14 @@ describe('base:createMeta', () => {
     expect(g(undefined)).toBe(undefined)
 
     expect(() => s(undefined, 1)).toThrowError()
+  })
+
+  it('custom meta key', () => {
+    const [s] = createMeta('__foo_bar')
+
+    const obj = {}
+    s(obj, 1)
+
+    expect((obj as any).__foo_bar).toBe(1)
   })
 })
