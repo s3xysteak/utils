@@ -34,8 +34,6 @@ export default defineBuildConfig({
           exclude: [
             'onDevFactory',
           ],
-          exportDefault: true,
-          writeTo: './src/resolver.ts',
         }),
       ]
     },
