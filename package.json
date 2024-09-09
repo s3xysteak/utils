@@ -55,9 +55,9 @@
     "@antfu/utils": "^0.7.10"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.24.0",
-    "@types/node": "^22.0.0",
-    "eslint": "^9.8.0",
+    "@antfu/eslint-config": "^3.4.1",
+    "@types/node": "^22.5.4",
+    "eslint": "^9.10.0",
     "esno": "^4.7.0",
     "typescript": "^5.5.4",
     "unbuild": "^2.0.0",
