@@ -42,7 +42,9 @@ export function createPromiseQueue() {
     const index = list.push([p, cb]) - 1
 
     p.then(async (v) => {
-      index > 0 && await Promise.allSettled(list[index - 1])
+      if (index > 0)
+        await Promise.allSettled(list[index - 1])
+
       await cb(v)
     })
 

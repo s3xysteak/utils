@@ -1,5 +1,5 @@
-import { describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { sleep, timestamp } from '@antfu/utils'
+import { describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { createPromiseQueue, isArray, toPromise } from '..'
 
 describe('createPromiseQueue', () => {
@@ -68,9 +68,12 @@ describe('createPromiseQueue', () => {
         if (val === 3)
           timeStart = timestamp()
 
-        val === 2 && p3()
-        val === 3 && p2(timeOffset() < 3)
-        val === 10 && p10(timeOffset() > 50)
+        if (val === 2)
+          p3()
+        if (val === 3)
+          p2(timeOffset() < 3)
+        if (val === 10)
+          p10(timeOffset() > 50)
       })
     })
 
@@ -102,9 +105,12 @@ describe('createPromiseQueue', () => {
         if (val === 3)
           timeStart = timestamp()
 
-        val === 2 && p3()
-        val === 3 && p2(timeOffset() < 3)
-        val === 10 && p10(timeOffset() > 50)
+        if (val === 2)
+          p3()
+        if (val === 3)
+          p2(timeOffset() < 3)
+        if (val === 10)
+          p10(timeOffset() > 50)
       })
     })
 
@@ -120,7 +126,10 @@ describe('toPromise', () => {
     expect(toPromise(v)).toBeInstanceOf(Promise)
 
     const val = await toPromise(v)
-    isArray(val) ? expect(val).toStrictEqual([1]) : expect(val).toBe(1)
+    if (isArray(val))
+      expect(val).toStrictEqual([1])
+    else
+      expect(val).toBe(1)
   }
 
   it('should work with promise', async () => {

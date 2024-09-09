@@ -1,5 +1,5 @@
-import { describe, expect, expectTypeOf, it } from 'vitest'
 import { noop } from '@antfu/utils'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 import { createMeta, toLF } from './base'
 
 describe('base', () => {
