@@ -17,6 +17,7 @@ const antfuList = [
 
   'noop',
   'toArray',
+  'at',
   'uniq',
   'sleep',
 ]
