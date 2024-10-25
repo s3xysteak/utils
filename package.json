@@ -23,14 +23,14 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./imports": {
+    "./import": {
       "import": {
-        "types": "./dist/imports.d.ts",
-        "default": "./dist/imports.mjs"
+        "types": "./dist/import.d.ts",
+        "default": "./dist/import.mjs"
       },
       "require": {
-        "types": "./dist/imports.d.ts",
-        "default": "./dist/imports.cjs"
+        "types": "./dist/import.d.ts",
+        "default": "./dist/import.cjs"
       }
     }
   },
@@ -44,8 +44,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "tsc && unbuild",
-    "build:only": "unbuild",
+    "build": "esno ./scripts/update-import.ts && unbuild",
     "test": "vitest",
     "test:once": "vitest run",
     "release": "tsc && bumpp",
@@ -54,7 +53,8 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@antfu/utils": "^0.7.10"
+    "@antfu/utils": "^0.7.10",
+    "auto-import-helper": "^0.0.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.6.2",
@@ -64,7 +64,6 @@
     "esno": "^4.7.0",
     "typescript": "^5.6.2",
     "unbuild": "^2.0.0",
-    "unplugin-export-collector": "^0.6.0",
     "vitest": "^2.1.1"
   },
   "pnpm": {
