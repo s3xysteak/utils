@@ -1,5 +1,6 @@
 import { execSync } from 'node:child_process'
-import { transformFile } from 'auto-import-helper'
+import * as fs from 'node:fs/promises'
+import { createSearch } from 'auto-import-helper'
 
 const set = new Set([
   ...Object.keys(await import('../src/core')),
@@ -21,10 +22,21 @@ const set = new Set([
 ])
 set.delete('onDevFactory')
 
-await transformFile(
-  new URL('../src/import.ts', import.meta.url),
-  [...set].sort(),
-)
+await run()
 
-// just fix your style!
-execSync('eslint . --fix src/import.ts')
+async function run() {
+  const search = createSearch('createImport')
+  const path = new URL('../src/import.ts', import.meta.url)
+
+  const code = await fs.readFile(path, 'utf-8')
+
+  const val = search(code)
+  if (!val)
+    return
+  const [start, end] = val
+
+  await fs.writeFile(path, code.slice(0, start) + JSON.stringify([...set].sort()) + code.slice(end))
+
+  // just fix your style!
+  execSync('eslint --fix src/import.ts', { stdio: 'inherit' })
+}
