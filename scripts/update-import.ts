@@ -1,4 +1,3 @@
-import { execSync } from 'node:child_process'
 import * as fs from 'node:fs/promises'
 import { createSearch } from 'auto-import-helper'
 
@@ -22,21 +21,17 @@ const set = new Set([
 ])
 set.delete('onDevFactory')
 
-await run()
+await writeTo('src/import.ts', 'createImport', [...set])
 
-async function run() {
-  const search = createSearch('createImport')
-  const path = new URL('../src/import.ts', import.meta.url)
-
+async function writeTo(path: string | URL, searchTarget: Parameters<typeof createSearch>[0], names: string[]) {
+  const search = createSearch(searchTarget)
   const code = await fs.readFile(path, 'utf-8')
 
   const val = search(code)
-  if (!val)
-    return
+  if (!val) {
+    throw new Error('no target')
+  }
   const [start, end] = val
 
-  await fs.writeFile(path, code.slice(0, start) + JSON.stringify([...set].sort()) + code.slice(end))
-
-  // just fix your style!
-  execSync('eslint --fix src/import.ts', { stdio: 'inherit' })
+  await fs.writeFile(path, code.slice(0, start) + JSON.stringify([...names].sort()) + code.slice(end))
 }
