@@ -1,12 +1,11 @@
 import * as fs from 'node:fs/promises'
 import { createSearch } from 'auto-import-helper'
 
-const set = new Set([
-  ...Object.keys(await import('../src/core')),
-])
-set.delete('onDevFactory')
-
-await writeTo('src/import.ts', 'createImport', [...set])
+await writeTo(
+  'src/import.ts',
+  'createImport',
+  Object.keys(await import('../src/core')),
+)
 
 async function writeTo(path: string | URL, searchTarget: Parameters<typeof createSearch>[0], names: string[]) {
   const search = createSearch(searchTarget)
