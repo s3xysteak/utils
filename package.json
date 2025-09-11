@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.9.0",
   "private": false,
-  "packageManager": "pnpm@9.14.2",
+  "packageManager": "pnpm@10.15.1+sha512.34e538c329b5553014ca8e8f4535997f96180a1d0f614339357449935350d924e22f8614682191264ec33d1462ac21561aff97f6bb18065351c162c7e8f6de67",
   "description": "s3xysteak/utils",
   "author": "s3xysteak",
   "license": "MIT",
@@ -53,18 +53,18 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@antfu/utils": "^0.7.10",
+    "@antfu/utils": "^9.2.0",
     "auto-import-helper": "^0.2.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.9.2",
-    "@types/node": "^22.9.1",
-    "bumpp": "^9.8.1",
-    "eslint": "^9.15.0",
+    "@antfu/eslint-config": "^5.3.0",
+    "@types/node": "^24.3.1",
+    "bumpp": "^10.2.3",
+    "eslint": "^9.35.0",
     "esno": "^4.8.0",
-    "typescript": "^5.6.3",
-    "unbuild": "^2.0.0",
-    "vitest": "^2.1.5"
+    "typescript": "^5.9.2",
+    "unbuild": "^3.6.1",
+    "vitest": "^3.2.4"
   },
   "pnpm": {
     "peerDependencyRules": {
