@@ -1,4 +1,3 @@
-import { noop } from '@antfu/utils'
 import { describe, expect, expectTypeOf, it } from 'vitest'
 import { createMeta } from './base'
 
@@ -43,7 +42,7 @@ describe('base:createMeta', () => {
   it('handle error', () => {
     const [s, g] = createMeta()
 
-    const func = s(noop, 1)
+    const func = s(() => { }, 1)
     expect(g(func)).toBe(1)
 
     expect(g(undefined)).toBe(undefined)

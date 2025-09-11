@@ -1,4 +1,3 @@
-import { sleep, timestamp } from '@antfu/utils'
 import { describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { createPromiseQueue, isArray, toPromise } from '..'
 
@@ -170,3 +169,17 @@ describe('toPromise', () => {
     await t(fnHeap)
   })
 })
+
+function timestamp() {
+  return +Date.now()
+}
+
+function sleep(ms: number, callback?: () => any) {
+  return new Promise<void>(resolve =>
+
+    setTimeout(async () => {
+      await callback?.()
+      resolve()
+    }, ms),
+  )
+}

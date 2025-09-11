@@ -1,5 +1,4 @@
-import type { Awaitable, Callable } from '..'
-import { isFunction } from '..'
+import type { Callable } from '..'
 
 type CreatePromiseQueueReturns = ReturnType<typeof createPromiseQueue>
 
@@ -79,4 +78,10 @@ export function toPromise<T>(param: Callable<Awaitable<T>>): Promise<T> {
     isFunction(param) ? param() : param
 
   return cb()
+}
+
+type Awaitable<T> = T | PromiseLike<T>
+// eslint-disable-next-line ts/no-unsafe-function-type
+function isFunction<T extends Function>(val: any): val is T {
+  return typeof val === 'function'
 }

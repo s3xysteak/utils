@@ -45,6 +45,7 @@
   },
   "scripts": {
     "build": "esno ./scripts/update-import.ts && tsdown",
+    "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:once": "vitest run",
     "release": "tsc && bumpp",
@@ -53,7 +54,6 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@antfu/utils": "^9.2.0",
     "auto-import-helper": "^0.2.0"
   },
   "devDependencies": {

@@ -3,21 +3,6 @@ import { createSearch } from 'auto-import-helper'
 
 const set = new Set([
   ...Object.keys(await import('../src/core')),
-  'isDef',
-  'isBoolean',
-  'isFunction',
-  'isNumber',
-  'isString',
-  'isObject',
-  'isUndefined',
-  'isNull',
-  'isRegExp',
-  'isDate',
-  'noop',
-  'toArray',
-  'at',
-  'uniq',
-  'sleep',
 ])
 set.delete('onDevFactory')
 
