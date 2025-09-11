@@ -1,4 +1,5 @@
-import { type Awaitable, type Callable, isFunction } from '..'
+import type { Awaitable, Callable } from '..'
+import { isFunction } from '..'
 
 type CreatePromiseQueueReturns = ReturnType<typeof createPromiseQueue>
 
@@ -24,7 +25,7 @@ type CreatePromiseQueueReturns = ReturnType<typeof createPromiseQueue>
  *   queue2.run(async () => { await sleep(v*10); return val }, (val) => console.log(String(val)))
  * })
  *
- * //Will be called after all Promise tasks are resolved
+ * // Will be called after all Promise tasks are resolved
  * await queue2.wait()
  * // log `3` on 30ms, log `2` on next tick, log `10` on 100ms
  * ```
@@ -61,6 +62,18 @@ export function createPromiseQueue() {
   }
 }
 
+/**
+ * Make any input as a promise.
+ *
+ * If the input is a function, call it.
+ *
+ * @example
+ * await toPromise('hi') // -> 'hi'
+ * await toPromise(1) // -> 1
+ * await toPromise(Promise.resolve(1)) // -> 1
+ * await toPromise(() => 1) // -> 1
+ * await toPromise(async () => 1) // -> 1
+ */
 export function toPromise<T>(param: Callable<Awaitable<T>>): Promise<T> {
   const cb = async () =>
     isFunction(param) ? param() : param

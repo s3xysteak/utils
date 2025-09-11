@@ -77,6 +77,10 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(
  * and uses it to return a value.
  * It returns a function that takes one argument, passes it to the first UnaryFunction, and then
  * passes the result to the next one, passes that result to the next one, and so on.
+ *
+ * @example
+ * const fn = pipe((v: number) => v + 1, v => v * 2)
+ * fn(1) // -> 4
  */
 export function pipe(...fns: Array<UnaryFunction<any, any>>): UnaryFunction<any, any> {
   return fns.length === 1 ? fns[0] : (input: any) => fns.reduce(pipeReducer, input)
