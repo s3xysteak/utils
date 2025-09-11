@@ -20,31 +20,16 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
-    },
-    "./import": {
-      "import": {
-        "types": "./dist/import.d.ts",
-        "default": "./dist/import.mjs"
-      },
-      "require": {
-        "types": "./dist/import.d.ts",
-        "default": "./dist/import.cjs"
-      }
+      "import": "./dist/index.js"
     }
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "esno ./scripts/update-import.ts && tsdown",
+    "build": "tsdown",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:once": "vitest run",
@@ -52,9 +37,6 @@
     "publish:ci": "pnpm publish --access public --no-git-checks",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
-  },
-  "dependencies": {
-    "auto-import-helper": "^0.2.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^5.3.0",
@@ -65,12 +47,5 @@
     "tsdown": "^0.15.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "allowedVersions": {
-        "eslint": "9"
-      }
-    }
   }
 }
