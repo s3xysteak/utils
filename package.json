@@ -44,7 +44,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "esno ./scripts/update-import.ts && unbuild",
+    "build": "esno ./scripts/update-import.ts && tsdown",
     "test": "vitest",
     "test:once": "vitest run",
     "release": "tsc && bumpp",
@@ -62,8 +62,8 @@
     "bumpp": "^10.2.3",
     "eslint": "^9.35.0",
     "esno": "^4.8.0",
+    "tsdown": "^0.15.0",
     "typescript": "^5.9.2",
-    "unbuild": "^3.6.1",
     "vitest": "^3.2.4"
   },
   "pnpm": {
