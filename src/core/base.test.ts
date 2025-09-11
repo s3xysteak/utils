@@ -1,14 +1,6 @@
 import { noop } from '@antfu/utils'
 import { describe, expect, expectTypeOf, it } from 'vitest'
-import { createMeta, toLF } from './base'
-
-describe('base', () => {
-  it('toLF', () => {
-    const crlf = 'hello\r\nworld'
-    const lf = 'hello\nworld'
-    expect(toLF(crlf)).toBe(lf)
-  })
-})
+import { createMeta } from './base'
 
 describe('base:createMeta', () => {
   it('basic', () => {

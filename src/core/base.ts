@@ -1,11 +1,15 @@
 import { makeDestructurable } from '../shared/makeDestructurable'
 
+/**
+ * @example
+ * const onDev = onDevFactory(import.meta.env.DEV)
+ * // Only run on development env
+ * const val = onDev(() => testSomeThing())
+ * // dev -> testSomeThing(), prod -> undefined
+ * val
+ */
 export function onDevFactory(condition: boolean) {
   return <P>(cb: () => P) => condition ? cb() : undefined
-}
-
-export function toLF(content: string) {
-  return content.replace(/\r\n/g, '\n')
 }
 
 /**
