@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { groupBy } from '..'
+import { groupBy, isSubset } from '..'
 
 describe('groupBy', () => {
   it('should work with empty array', () => {
@@ -45,5 +45,35 @@ describe('groupBy', () => {
 
   it('should work with cb', () => {
     expect(groupBy(arrMul, item => item.type)).toEqual(targetMul)
+  })
+})
+
+describe('isSubset', () => {
+  it('array in array', () => {
+    expect(isSubset([1, 2], [1, 2, 3])).toBe(true)
+    expect(isSubset([1, 4], [1, 2, 3])).toBe(false)
+  })
+
+  it('set in array', () => {
+    expect(isSubset(new Set([1, 2]), [1, 2, 3])).toBe(true)
+  })
+
+  it('array in set', () => {
+    expect(isSubset([1, 2], new Set([1, 2, 3]))).toBe(true)
+  })
+
+  it('set in set', () => {
+    expect(isSubset(new Set([1, 2]), new Set([1, 2, 3]))).toBe(true)
+    expect(isSubset(new Set([1, 4]), new Set([1, 2, 3]))).toBe(false)
+  })
+
+  it('empty subset', () => {
+    expect(isSubset([], [1, 2, 3])).toBe(true)
+    expect(isSubset(new Set(), [1, 2, 3])).toBe(true)
+  })
+
+  it('subset same as superset', () => {
+    const arr = [1, 2, 3]
+    expect(isSubset(arr, arr)).toBe(true)
   })
 })

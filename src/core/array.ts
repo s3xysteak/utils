@@ -46,3 +46,21 @@ export function groupBy<T extends any[]>(arr: T, getKey: string | ((element: T[n
 
   return val
 }
+
+/**
+ * Is the first param a subset of the second
+ *
+ * @example
+ * isSubset([1, 2], [1, 2, 3]) // -> true
+ */
+export function isSubset<SubSet, SuperSet>(
+  subSet: Iterable<SubSet> | Set<SubSet>,
+  superSet: Iterable<SuperSet> | Set<SuperSet>,
+) {
+  const formatted = superSet instanceof Set ? superSet : new Set(superSet)
+  for (const item of subSet) {
+    if (!formatted.has(item as any))
+      return false
+  }
+  return true
+}
