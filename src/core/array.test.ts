@@ -76,4 +76,11 @@ describe('isSubset', () => {
     const arr = [1, 2, 3]
     expect(isSubset(arr, arr)).toBe(true)
   })
+
+  it('type should be good', () => {
+    expect(isSubset('123', [1, 2, 3])).toBe(false)
+    expect(isSubset([1, '2'], [1, 2, 3])).toBe(false)
+    expect(isSubset([1, '2'], [1, 2, false])).toBe(false)
+    expect(isSubset([1, 2], [1, 2, false])).toBe(true)
+  })
 })
